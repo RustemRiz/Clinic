@@ -1,0 +1,16 @@
+package ru.lesson.clinic;
+
+/**
+ * Питомец
+ * Created by Рустем on 24.08.2017.
+ */
+public interface Pet {
+    /*
+    *Подать звук
+     */
+    public void makeSound();
+    /*
+    *Имя питомца
+     */
+    public String getName();
+}
