@@ -15,4 +15,10 @@ public class Cat extends Animal {
 
     }
 
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "name='" + this.name + '\'' +
+                '}';
+    }
 }

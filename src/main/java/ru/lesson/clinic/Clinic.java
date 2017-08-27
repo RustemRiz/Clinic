@@ -27,15 +27,15 @@ public class Clinic {
     *@param  position Позиция
     * @param name Имя клиента
      */
-    private void addClient(final Client client){
+    public void addClient(final Client client){
         for (int i=0;i<clients.length;i++){
             if(clients[i]==null) {this.clients[i] = client;break;}
         }
     }
-    /*
+    /**
     *Удалить клиента по его имени (регистр не учитывается)
      */
-    private void deleteClientByHisName(String name){
+    public void deleteClientByHisName(String name){
         for (int i=0;i<clients.length;i++){
             if(name.equalsIgnoreCase(clients[i].getName())){
                 clients[i] = null;
@@ -48,7 +48,7 @@ public class Clinic {
      * УДалить клиента по имени питомца
      * @param petName кличка питомца
      */
-    private void deleteClientByPetName(String petName){
+    public void deleteClientByPetName(String petName){
         for (int i=0;i<clients.length;i++){
             if(petName.equalsIgnoreCase(clients[i].getPet().getName())){
                 clients[i] = null;
@@ -56,27 +56,27 @@ public class Clinic {
             }
         }
     }
-    /*
+    /**
     *Поиск клиента по кличке питомца
-    * @param name кличка питомца
+    *@param name кличка питомца
     */
-    private Client findClientsByPetName(final String name){
+    public Client findClientByPetName(final String name){
         Client client = null;
         for (int i = 0;i<clients.length;i++){
-            if(name.equalsIgnoreCase(clients[i].getPet().getName()))
+            if(clients[i]!=null && name.equalsIgnoreCase(clients[i].getPet().getName()))
                 client = clients[i];
         }
         return client;
     }
 
-    /*
+    /**
     *Поиск клиента по имени
      */
-    private Client findClientByName(final String name){
+    public Client findClientByName(final String name){
         if (name.length()==0) throw new IllegalArgumentException("Некорректное имя");
         Client client = null;
         for (int i = 0;i<clients.length;i++){
-            if(name.equalsIgnoreCase(clients[i].getName()))
+            if(clients[i]!=null && name.equalsIgnoreCase(clients[i].getName()))
                 client = clients[i];
         }
         return client;
@@ -84,26 +84,46 @@ public class Clinic {
 
     /**
      * Изменить имя клиента
-     * @param oldName Старое имя
-     * @param newName Новое имя
      */
-    public void  renameClient(String oldName, String newName){
-        for (int i = 0;i<clients.length;i++){
-            if (oldName.equalsIgnoreCase(clients[i].getName())) {
-                clients[i].rename(newName);
-            }
+    public void  renameClient(){
+        String oldName = this.inputClientName();
+        Client client = this.findClientByName(oldName);
+        if (client == null) throw new NullPointerException("Client not found");
+        System.out.println("Input new name");
+        String newName = scanner.next();
+        if (newName.length()==0) throw new IllegalArgumentException("Name must have t least one character!");
+        client.rename(newName);
+    }
+
+    /**
+     * Переименовать питомца
+     */
+    public void renamePet(){
+        String oldPetName = this.inputPetName();
+        Client client = this.findClientByPetName(oldPetName);
+        if (client == null) throw new NullPointerException("Pet not found");
+        System.out.println("Input new name");
+        String newName = scanner.next();
+        if (newName.length()==0) throw new IllegalArgumentException("Name must have t least one character!");
+        client.getPet().setNamePet(newName);
+    }
+
+    public boolean isFull(){
+        for(int i = 0; i<clients.length; i++){
+            if (clients[i] == null) return false;
         }
+        return true;
     }
 
     /**
      * Запрос имени пользователя
      * @return Возвращает имя пользователя
      */
-    private String inputClientName(){
+    public String inputClientName(){
         System.out.println("Input client name");
         return scanner.next();
     }
-    private String inputPetName(){
+    public String inputPetName(){
         System.out.println("Input pet name");
         return scanner.next();
     }
@@ -113,7 +133,7 @@ public class Clinic {
      */
     public void choice(int choiceNumber) {
         Scanner scanner = new Scanner(System.in);
-        String name, petName, newName;
+        String name, petName;
         Client client;
         int kind;
         switch (choiceNumber){
@@ -123,8 +143,8 @@ public class Clinic {
                 System.out.println("Select a kind of pet: 1)Dog     2)Cat");
                 kind = scanner.nextInt();
                 petName = this.inputPetName();
-                if(kind==1)this.addClient(new Client(name,new Dog(name)));
-                else if(kind==2) this.addClient(new Client(name, new Cat(name)));
+                if(kind==1)this.addClient(new Client(name,new Dog(petName)));
+                else if(kind==2) this.addClient(new Client(name, new Cat(petName)));
                 else throw new IllegalArgumentException();
                 break;
             case 2:
@@ -136,28 +156,22 @@ public class Clinic {
             case 3:
                 //TODO Find by pet's name
                 petName = this.inputPetName();
-                client = this.findClientsByPetName(petName);
+                client = this.findClientByPetName(petName);
+                System.out.println(client);
                 break;
             case 4:
                 //TODO Find by client's name
                 name = this.inputClientName();
                 client = this.findClientByName(name);
+                System.out.println(client);
                 break;
             case 5:
                 //TODO Edit client name
-                name = this.inputClientName();
-                client = this.findClientByName(name);
-                System.out.println("Input new name");
-                newName = scanner.next();
-                client.rename(newName);
+                this.renameClient();
                 break;
             case 6:
                 //TODO Edit pet name
-                petName = this.inputPetName();
-                client = this.findClientsByPetName(petName);
-                System.out.println("Input new name");
-                newName = scanner.next();
-                client.getPet().setNamePet(newName);
+                this.renamePet();
                 break;
             case 7:
                 //TODO  Delete client by name
@@ -167,10 +181,12 @@ public class Clinic {
             case 8:
                 //TODO Delete client by pet name
                 petName = inputPetName();
-                this.deleteClientByHisName(petName);
+                this.deleteClientByPetName(petName);
                 break;
             case 9:
                 //TODO isFullClinic?
+                if(isFull())  System.out.println("Clinic is full");
+                else System.out.println("Clinic is not full");
                 break;
             default:throw new IllegalArgumentException("Input numbers from 1 to 9!");
         }

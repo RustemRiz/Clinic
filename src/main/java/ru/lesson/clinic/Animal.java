@@ -21,8 +21,8 @@ public abstract class Animal implements Pet{
 
     /*
 
-    *Переименовать питомца
-     */  @Override
+        *Переименовать питомца
+         */  @Override
     public void setNamePet(String name){
         this.name = name;
     }

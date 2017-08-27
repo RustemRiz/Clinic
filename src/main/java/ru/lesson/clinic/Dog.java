@@ -21,4 +21,11 @@ public class Dog extends Animal{
     public String getName() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Dog{" +
+                "name='" + this.name + '\'' +
+                '}';
+    }
 }

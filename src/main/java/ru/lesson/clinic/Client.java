@@ -21,11 +21,6 @@ public class Client {
     public String getName(){
         return this.name;
     }
-    /*Редактировать имя клиента
-     */
-    public void editClientName(String name){
-        this.name = name;
-    }
 
     /*
     *Имя питомца
@@ -39,6 +34,15 @@ public class Client {
      * @param newName Новое имя
      */
     public void rename(String newName){
+        if (newName.length()==0) throw new IllegalArgumentException("The name must contain at least one character!");
         this.name = newName;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", pet=" + pet +
+                '}';
     }
 }
