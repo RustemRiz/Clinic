@@ -9,8 +9,11 @@ public interface Pet {
     *Подать звук
      */
     public void makeSound();
+
     /*
     *Имя питомца
      */
     public String getName();
+
+    public void setNamePet(String newName);
 }

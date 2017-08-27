@@ -5,7 +5,7 @@ package ru.lesson.clinic;
  * Created by Рустем on 23.08.2017.
  */
 public class Client {
-    private String id;
+    private String name;
     private final Pet pet;
 
     /*
@@ -14,15 +14,31 @@ public class Client {
     *@param ru.lesson.clinic.Pet питомец
      */
     public Client(String id, Pet pet){
-        this.id=id;
+        this.name=id;
         this.pet = pet;
     }
 
-
+    public String getName(){
+        return this.name;
+    }
     /*Редактировать имя клиента
      */
     public void editClientName(String name){
-        this.id = name;
+        this.name = name;
     }
 
+    /*
+    *Имя питомца
+     */
+    public Pet getPet(){
+        return this.pet;
+    }
+
+    /**
+     * Переименовать клиента
+     * @param newName Новое имя
+     */
+    public void rename(String newName){
+        this.name = newName;
+    }
 }
