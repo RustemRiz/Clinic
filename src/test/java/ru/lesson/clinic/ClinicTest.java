@@ -34,6 +34,14 @@ public class ClinicTest {
         assertEquals(client3, clinic.getClient(3));
     }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void addClientWhenClinicIsFull() throws Exception {
+        Client client3 = new Client("Rob",new Cat ("Murka"));
+        clinic.addClient(client3);
+        clinic.addClient(new Client("Mary", new Dog("Sparky")));
+        clinic.addClient(new Client("Vadim", new Dog("Jacky")));
+    }
+
     @Test
     public void findClientsByPetName() throws Exception {
         Client client3 = clinic.findClientByPetName("felix");
@@ -73,8 +81,7 @@ public class ClinicTest {
 
     @Test
     public void renameClient() throws Exception {
-        Client client3 = clinic.findClientByName("Rustem");
-        client3.rename("Farid");
+        clinic.renameClient("Rustem","Farid");
         assertEquals(clinic.getClient(0).getName(), "Farid");
     }
 
@@ -84,8 +91,7 @@ public class ClinicTest {
     }
     @Test
     public void renamePet() throws Exception {
-        Client client3 = clinic.findClientByPetName("Felix");
-        client3.getPet().setNamePet("Foxy");
+        clinic.renamePet("Felix","Foxy");
         assertEquals(clinic.getClient(1).getPet().getName(), "Foxy");
     }
 

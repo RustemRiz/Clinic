@@ -28,9 +28,11 @@ public class Clinic {
     * @param name Имя клиента
      */
     public void addClient(final Client client){
+        if (this.isFull()) throw new ArrayIndexOutOfBoundsException("Clinic is full!");
         for (int i=0;i<clients.length;i++){
             if(clients[i]==null) {this.clients[i] = client;break;}
         }
+
     }
     /**
     *Удалить клиента по его имени (регистр не учитывается)
@@ -85,25 +87,21 @@ public class Clinic {
     /**
      * Изменить имя клиента
      */
-    public void  renameClient(){
-        String oldName = this.inputClientName();
+    public void  renameClient(String oldName, String newName){
         Client client = this.findClientByName(oldName);
         if (client == null) throw new NullPointerException("Client not found");
-        System.out.println("Input new name");
-        String newName = scanner.next();
         if (newName.length()==0) throw new IllegalArgumentException("Name must have t least one character!");
         client.rename(newName);
     }
 
     /**
      * Переименовать питомца
+     * @param oldPetName Старое имя
+     * @param newName Новое имя
      */
-    public void renamePet(){
-        String oldPetName = this.inputPetName();
+    public void renamePet(String oldPetName, String newName){
         Client client = this.findClientByPetName(oldPetName);
         if (client == null) throw new NullPointerException("Pet not found");
-        System.out.println("Input new name");
-        String newName = scanner.next();
         if (newName.length()==0) throw new IllegalArgumentException("Name must have t least one character!");
         client.getPet().setNamePet(newName);
     }
@@ -167,11 +165,17 @@ public class Clinic {
                 break;
             case 5:
                 //TODO Edit client name
-                this.renameClient();
+                String oldName = this.inputClientName();
+                System.out.println("Input new name");
+                String newName = scanner.next();
+                this.renameClient(oldName, newName);
                 break;
             case 6:
                 //TODO Edit pet name
-                this.renamePet();
+                String oldPetName = this.inputPetName();
+                System.out.println("Input new name");
+                newName = scanner.next();
+                this.renamePet(oldPetName,newName);
                 break;
             case 7:
                 //TODO  Delete client by name

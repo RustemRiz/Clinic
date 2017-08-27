@@ -10,10 +10,6 @@ public class Cat extends Animal {
         super(name);
     }
 
-    @Override
-    public void makeSound() {
-
-    }
 
     @Override
     public String toString() {

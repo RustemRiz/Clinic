@@ -12,15 +12,8 @@ public class Dog extends Animal{
         super(name);
     }
 
-    @Override
-    public void makeSound() {
 
-    }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 
     @Override
     public String toString() {
