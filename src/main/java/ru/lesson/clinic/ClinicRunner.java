@@ -19,9 +19,12 @@ public class ClinicRunner {
             try {
                 int i = Integer.parseInt(choiceNumber);
                 clinic.choice(i);
-            } catch (NumberFormatException e) {
-                System.out.println("Input number from 1 to 9 for select operation");
-            }finally {
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }catch (ArrayIndexOutOfBoundsException e){
+                System.out.println(e.getMessage());
+            }
+            finally {
                 choiceNumber = scanner.next();
             }
         }
